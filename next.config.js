@@ -9,7 +9,7 @@ const withTranspileModules = require("next-transpile-modules")([
   "@dfds-ui/icons",
   "@dfds-ui/modal",
 ]);
-const withBundleAnalyzer = require("./withBundleAnalyzer");
+const withBundleAnalyzer = require("withBundleAnalyzer");
 let env;
 switch (process.env.NODE_ENV) {
   case "production":

@@ -1,7 +1,6 @@
 // https://nextjs.org/docs/#custom-configuration
 const path = require("path");
 const webpack = require("webpack");
-const { BundleAnalyzerPlugin } = require("webpack-bundle-analyzer");
 const withPlugins = require("next-compose-plugins");
 const withTranspileModules = require("next-transpile-modules")([
   "@dfds-ui/react-components",
@@ -9,7 +8,6 @@ const withTranspileModules = require("next-transpile-modules")([
   "@dfds-ui/icons",
   "@dfds-ui/modal",
 ]);
-const withBundleAnalyzer = require("withBundleAnalyzer");
 let env;
 switch (process.env.NODE_ENV) {
   case "production":
@@ -42,12 +40,7 @@ module.exports = withPlugins(
       withTranspileModules,
       {
         webpack(config, options) {
-          process.env.BUNDLE_ANALYZE &&
-            config.plugins.push(new BundleAnalyzerPlugin());
-          // Fixes npm packages that depend on `fs` module
-          config.node = {
-            fs: "empty",
-          };
+
           config.module.rules.push({
             test: /\.test.js$/,
             loader: "ignore-loader",
@@ -75,9 +68,6 @@ module.exports = withPlugins(
       },
     ],
     [nextConfig],
-    process.env.BUNDLE_ANALYZE && [
-      // https://github.com/zeit/next-plugins/tree/master/packages/next-bundle-analyzer
-      withBundleAnalyzer,
-    ],
+
   ].filter(Boolean)
 );
